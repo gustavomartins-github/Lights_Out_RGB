@@ -40,10 +40,10 @@
 
 <p>
 Ex.:<br>
-Linha 1: *W-R-R-B <br>
-Linha 2: -R|W-W-G <br>
-Linha 3: -B-G_G-G <br>
-Linha 4: -R-W-W#W <br>
+<strong>Linha 1:</strong> *W-R-R-B <br>
+<strong>Linha 2:</strong> -R|W-W-G <br>
+<strong>Linha 3:</strong> -B-G_G-G <br>
+<strong>Linha 4:</strong> -R-W-W#W <br>
 </p>
 
 # Output
