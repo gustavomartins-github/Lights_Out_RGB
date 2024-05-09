@@ -29,13 +29,13 @@
 # Botões 
 
 
- ID | Defeito | Mudança de Estado
-----| ------- | -----------------
-1   | Não há mudança de estado quando clicado | click em mesma linha ou coluna
-2   | Não há mudança de estado decorrente de click em mesma coluna | quando clicado ou click em mesma linha
-3   | Não há mudança de estado decorrente de click em mesma linha | quando clicado ou click em mesma coluna
-4   | Não há mudança de estado decorrente de click em mesma linha e coluna | quando clicado
-5   | Nenhum | quando clicado ou click em mesma linha ou coluna
+ ID |                               Defeito                                |                 Mudança de Estado                | Representação |
+----| -------------------------------------------------------------------- | ------------------------------------------------ | ------------- |
+1   |                Não há mudança de estado quando clicado               | click em mesma linha ou coluna                   |       *       |
+2   |    Não há mudança de estado decorrente de click em mesma coluna      | quando clicado ou click em mesma linha           |       _       |
+3   |    Não há mudança de estado decorrente de click em mesma linha       | quando clicado ou click em mesma coluna          |       |       |
+4   | Não há mudança de estado decorrente de click em mesma linha e coluna | quando clicado                                   |       #       |
+5   |                                 Nenhum                               | quando clicado ou click em mesma linha ou coluna |       -       |
 
 <i>Resumo (Mudança de Estados):</i>
 
@@ -47,7 +47,7 @@
 4   | :white_check_mark: | :white_check_mark: |         :x:          |          :x:          |
 5   |        :x:         | :white_check_mark: |  :white_check_mark:  |  :white_check_mark:   |
 
-# Tabela de comandos
+# Tabela de comandos (C/C++)
 
 Comando   | Função
 --------- | ------
@@ -57,4 +57,6 @@ gcc [file_name.c] -o[executable_name] | cria um executável a partir de um file.
 g++ [file_name.cc] -o[executable_name] | cria um executável a partir de um file.cc
 
 # Referências
+
+
 
