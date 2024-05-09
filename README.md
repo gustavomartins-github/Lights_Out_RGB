@@ -19,15 +19,10 @@
 </ol>
 
 <p>
- A seguir, confira as especificações de entrada e saída, bem como as característica de cada tipo de botão.
+ A seguir, confira as característica de cada tipo de botão, bem como as especificações de entrada e saída
 </p>
 
-# Input
-
-# Output
-
 # Botões 
-
 
  ID |                               Defeito                                |                 Mudança de Estado                | Representação |
 ----| -------------------------------------------------------------------- | ------------------------------------------------ | ------------- |
@@ -36,6 +31,32 @@
 3   |    Não há mudança de estado decorrente de click em mesma linha       | quando clicado ou click em mesma coluna          |       |       |
 4   | Não há mudança de estado decorrente de click em mesma linha e coluna | quando clicado                                   |       #       |
 5   |                                 Nenhum                               | quando clicado ou click em mesma linha ou coluna |       -       |
+
+# Input
+
+<p>
+ O input deve ser lido pela entrada padrão e terminar em EOF, sendo formado por um conjunto de linhas que representarão uma matriz. Essa matriz representará o mapa do "jogo" e sua dimensão é implicita, sendo evidenciada conforme se faz a leitura das linhas. Por fim, cada linha consiste em uma string, onde cada caracter simboliza uma cor (R,G,B,W) ou tipo de botão (-, *, _, |, #).
+ </p>
+
+<p>
+Ex.:<br>
+Linha 1: *W-R-R-B <br>
+Linha 2: -R|W-W-G <br>
+Linha 3: -B-G_G-G <br>
+Linha 4: -R-W-W#W <br>
+</p>
+
+# Output
+
+<p>
+ saída é composta por uma única linha contendo as coordenadas dos botões apertados, em ordem, a fim de obter todas as lâmpadas apagadas.
+</p>
+
+<br>
+
+<p>
+ Ex.: (click 2 3);(click 2 3);(click 0 0);(click 0 0);(click 0 0)
+</p>
 
 <i>Resumo (Mudança de Estados):</i>
 
@@ -58,5 +79,9 @@ g++ [file_name.cc] -o[executable_name] | cria um executável a partir de um file
 
 # Referências
 
-
+<ol>
+<li><a href="https://www.brunoribas.com.br/flia/2024-1/">Fundamentos Lógicos da IA - 2024-1
+UnB</a></li>
+<li><a href="https://www.brunoribas.com.br/flia/2024-1/lightsoutrgb.html">LIGHTSOUT RGB* Apague todas as lâmpadas</a></li>
+<ol>
 
