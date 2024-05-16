@@ -76,6 +76,7 @@ sudo apt-get install gcc | instalação do compilador .c
 sudo apt-get install g++ | instalação do compilador .cc
 gcc [file_name.c] -o[executable_name] | cria um executável a partir de um file.c
 g++ [file_name.cc] -o[executable_name] | cria um executável a partir de um file.cc
+./[executable_name] | executa o arquivo executável gerado a partir de um dos comandos a cima (gcc/g++)
 
 # Referências
 
