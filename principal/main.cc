@@ -35,7 +35,7 @@ int main(void){
 		Obs.: linha 1 da matriz = linha 1 da entrada de dados, e assim por diante
 
 	*/
-	while (scanf(" %s", map[aux++]) == 1 && aux <= 3);
+	while (scanf(" %s", map[aux++]) == 1 && aux < 4);
 
 	/*
 
@@ -59,62 +59,48 @@ int main(void){
 
 	// --------------------------------------------- Montando o Arquivo de Problema ---------------------------------------------
 
-	/*
+	// escrevendo o cabeçalho para receber os objetos ~
+	fprintf(problem, "(define (problem luz)\n\t(:domain lightsout)\n\t(:objects\n\t\t");
 
-		~ escrevendo o cabeçalho para receber os objetos ~
-
-	*/
-	fprintf(problem, "(define (problem luz)\n\t(:domain lightsout)\n\t(:objects");
-
-	/*
-
-		~ escrevendo os objetos no arquivo de problema ~
-
-		Obs.: os objetos são as células (c) da matriz (botões de luz)
-		Obs.: cada célula do mapa indicará um botão e será representada como "cx-y"
-		Obs.: "cx-y" indica que a célula possui coordenada (x,y) no mapa (representado pela matriz "map")
-
-	*/
+	// Calculando sentinela (usada para saber a dimensão da nova matriz)
+	int size = 0;
 	for (int i = 0; i < aux; i++)
 		for (int j = 0; map[i][j] != '\0'; j++)
-			fprintf(problem, " c%d-%d", i, j);
-	fprintf(problem, " - cell)\n\t(:init\n");	
-
-	/*
-
-		~ escrevendo as luzes que estão ligadas no arquivo de problema ~
-
-		Obs.: lembre-se que as luzes ligadas podem ter a cor Red (R), Green (G) ou Blue (B).
-
-	*/
-	for (int i = 0; i < aux; i++)
-		for (int j = 0; map[i][j] != '\0'; j++)
-			if (map[i][j] == 'R' ||  map[i][j] == 'G' ||  map[i][j] == 'B') fprintf(problem, "\t\t(on c%d-%d)\n", i, j);
-    
-    /*
-
-		~ escrevendo as adjacências das células no arquivo de problema ~
-
-		Obs.: e há célula a direita ou a baixo da célula de refrência, então há adjacência entre elas
-
-	*/
-	for (int i = 0; i < aux; i++)
-		for (int j = 0; map[i][j] != '\0'; j++) {
-			if (map[i][j+1] != 0) fprintf(problem, "\t\t(adj c%d-%d c%d-%d)\n", i, j, i, j+1);
-			if (map[i+1][j] != 0) fprintf(problem, "\t\t(adj c%d-%d c%d-%d)\n", i, j, i+1, j);
-		}
-
-	/*
+			size = j;
+	size = (size+1)/2;
 	
-		~ escrevendo os objetivos (goals) no arquivo de problema
+	// Escrevendo os objetos (Células, Tipos e Cores, respectivamente)
+	for (int i = 0; i < aux; i++)
+		for (int j = 0; j < size; j++)
+			fprintf(problem, "%dx%d ", i, j);
+	fprintf(problem, "- cell\n\t\t- * _ | # - type\n\t\tW R G B - color\n\t)\n\t(:init");
 
-		Obs.: o objetivo é todas as luzes desligadas
-	
-	*/
-	fprintf(problem, "\t)\n\t(:goal\n\t\t(and");
+	// Escrevendo a cor de cada botão (considere W como Desligado)
 	for (int i = 0; i < aux; i++)
 		for (int j = 0; map[i][j] != '\0'; j++)
-			fprintf(problem, "\n\t\t\t(not (on c%d-%d))", i, j);
+			if (map[i][j] == 'R' ||  map[i][j] == 'G' ||  map[i][j] == 'B' || map[i][j] == 'W')
+				fprintf(problem, "\n\t\t(cor %c %dx%d)", map[i][j], i, j/2);
+
+	// Escrevendo o tipo de cada botão
+	for (int i = 0; i < aux; i++)
+		for (int j = 0; map[i][j] != '\0'; j++)
+			if (map[i][j] == 'R' ||  map[i][j] == 'G' ||  map[i][j] == 'B' || map[i][j] == 'W')
+				fprintf(problem, "\n\t\t(tipo %c %dx%d)", map[i][j-1], i, j/2);
+
+    // Escrevendo as adjacências de cada botão
+	for (int i = 0; i < aux; i++)
+		for (int j = 0; j < size; j++)
+			if (i == aux - 1)
+				fprintf(problem, "\n\t\t(adj %dx%d %dx%d)", i, j, i, j+1);
+			else
+				fprintf(problem, "\n\t\t(adj %dx%d %dx%d)\n\t\t(adj %dx%d %dx%d)", i, j, i, j+1, i, j, i+1, j );
+				
+
+	// Escrevendo o objetivo final: todas as células desligadas (cor = W)
+	fprintf(problem, "\n\t)\n\t(:goal\n\t\t(and");
+	for (int i = 0; i < aux; i++)
+		for (int j = 0; j < size; j++)
+			fprintf(problem, "\n\t\t\t(cor W %dx%d)", i, j);
 	fprintf(problem, "\n\t\t)\n\t)\n)\n");
 
 	// --------------------------------------------- Montando o Arquivo de Domínio ---------------------------------------------
@@ -134,12 +120,6 @@ int main(void){
 					"				(when (or (adj ?c ?w) (adj ?w ?c))\n"
 					"					(and (when (on ?w) (not (on ?w)))\n"
 					"					(when (not (on ?w)) (on ?w))))))))");
-
-	// Fechando os arquivos após finaliza-los
 	fclose(domain), fclose(problem);
-
-	// Executando um um planejador utilizando os arquivos de domínio e problema construídos
-	// system("/home/software/planners/madagascar/M -Q domain.pddl problem.pddl");
-	
 	return 0;
 }
