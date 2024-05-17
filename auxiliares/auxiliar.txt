@@ -1,47 +1,156 @@
-# PREMISSAS 
+DOMÍNIO:
 
-    1 -  nas posições 1, 3, 5, 7 está a cor/estado inicial de um rerspectivo botão.
-    2 -  nas posições 0, 2, 4, 6 está a condição/tipo de um respectivo  botão.
-    3 -  nas posições 0 e 1 ; 2 e 3; 4 e 5; 6 e 7; estão as informações, respectivamente, dos botões 1, 2, 3 e 4.
-    4 -  à matriz sempre será quadrática N x N, com N par, pois é necessário informação sobre a condição e a cor de cada botão.
-    5 -  ao clicar em um botão W, ele vira R.
-    6 -  ao clicar em um botão R, ele vira G.
-    7 -  ao clicar em um botão G, ele vira B.
-    8 -  ao clicar em um botão B, ele vira W.
------------------------------------------------------------------------------------------------------------------------------------
+(define (domain lightsout_rgb)
+    (:requirements :strips :typing :conditional-effects)
+    (:types cell)
+    (:predicates
+        (W ?c - cell)
+        (R ?c - cell)
+        (G ?c - cell)
+        (B ?c - cell)
+        (tipo0 ?c - cell)
+        (tipo1 ?c - cell)
+        (tipo2 ?c - cell)
+        (tipo3 ?c - cell)
+        (tipo4 ?c - cell)
+        (adj ?c1 ?c2 - cell)
+        (same_row ?c1 ?c2 - cell)
+        (same_col ?c1 ?c2 - cell)
+    )
+    (:action click
+        :parameters (?c - cell)
+        :precondition (or (W ?c) (R ?c) (G ?c) (B ?c))
+        :effect 
+            (and
+                (when (and (not (tipo1 ?c)) (W ?c)) (and (not (W ?c)) (R ?c)))
+                (when (and (not (tipo1 ?c)) (R ?c)) (and (not (R ?c)) (G ?c)))
+                (when (and (not (tipo1 ?c)) (G ?c)) (and (not (G ?c)) (B ?c)))
+                (when (and (not (tipo1 ?c)) (B ?c)) (and (not (B ?c)) (W ?c)))
+                (forall (?a - cell)
+                    (and
+                        (when (same_row ?c ?a) 
+                            (and
+                                (when (and (tipo0 ?a) (W ?a)) (and (not (W ?a)) (R ?a)))
+                                (when (and (tipo0 ?a) (R ?a)) (and (not (R ?a)) (G ?a)))
+                                (when (and (tipo0 ?a) (G ?a)) (and (not (G ?a)) (B ?a)))
+                                (when (and (tipo0 ?a) (B ?a)) (and (not (B ?a)) (W ?a)))
+                                (when (and (tipo1 ?a) (W ?a)) (and (not (W ?a)) (R ?a)))
+                                (when (and (tipo1 ?a) (R ?a)) (and (not (R ?a)) (G ?a)))
+                                (when (and (tipo1 ?a) (G ?a)) (and (not (G ?a)) (B ?a)))
+                                (when (and (tipo1 ?a) (B ?a)) (and (not (B ?a)) (W ?a)))
+                                (when (and (tipo2 ?a) (W ?a)) (and (not (W ?a)) (R ?a)))
+                                (when (and (tipo2 ?a) (R ?a)) (and (not (R ?a)) (G ?a)))
+                                (when (and (tipo2 ?a) (G ?a)) (and (not (G ?a)) (B ?a)))
+                                (when (and (tipo2 ?a) (B ?a)) (and (not (B ?a)) (W ?a)))
+                            )
+                        )
+                        (when (same_col ?c ?a) 
+                            (and
+                                (when (and (tipo0 ?a) (W ?a)) (and (not (W ?a)) (R ?a)))
+                                (when (and (tipo0 ?a) (R ?a)) (and (not (R ?a)) (G ?a)))
+                                (when (and (tipo0 ?a) (G ?a)) (and (not (G ?a)) (B ?a)))
+                                (when (and (tipo0 ?a) (B ?a)) (and (not (B ?a)) (W ?a)))
+                                (when (and (tipo1 ?a) (W ?a)) (and (not (W ?a)) (R ?a)))
+                                (when (and (tipo1 ?a) (R ?a)) (and (not (R ?a)) (G ?a)))
+                                (when (and (tipo1 ?a) (G ?a)) (and (not (G ?a)) (B ?a)))
+                                (when (and (tipo1 ?a) (B ?a)) (and (not (B ?a)) (W ?a)))
+                                (when (and (tipo3 ?a) (W ?a)) (and (not (W ?a)) (R ?a)))
+                                (when (and (tipo3 ?a) (R ?a)) (and (not (R ?a)) (G ?a)))
+                                (when (and (tipo3 ?a) (G ?a)) (and (not (G ?a)) (B ?a)))
+                                (when (and (tipo3 ?a) (B ?a)) (and (not (B ?a)) (W ?a)))
+                            )
+                        )
+                    )
+                )
+            )  
+    )
+)
 
-# I/0 DE TESTES 
+PROBLEMA:
 
-Entrada:
-
-*R-W-W-W
--G|B-R-W
--W-W_W-W
--W-W-W#W
-
-Saída:
-
-(click 2 3);(click 2 3);(click 0 0);(click 0 0);(click 0 0)
-
------------------------------------------------------------------------------------------------------------------------------------
- 
-# FUNÇÕES ÚTEIS 
-
-1 - Leitor de entradas para o exemplo de teste
-
-while (scanf(" %s", map[aux++]) == 1 and aux <= 3);
-
-
-2 - Printar a matriz para o exemplo de teste
-
-printf("\n-------- EXIBINDO A MATRIZ --------\n\n");
-for(int i=0; i<=3; i++){
-    	printf("%s\n", map[i]);
-	}
-
-3 - Exibir a sentinela para o laço que escreverá a matriz final
-
-printf("%d\n\n", size);
-size = (size+1)/2;
-printf("\n\n%d", size);
------------------------------------------------------------------------------------------------------------------------------------
+(define (problem lightsout)
+	(:domain lightsout_rgb)
+	(:objects c00 c01 c02 c03 c10 c11 c12 c13 c20 c21 c22 c23 c30 c31 c32 c33 - cell)
+	(:init
+		(R c00)
+		(W c01)
+		(W c02)
+		(W c03)
+		(G c10)
+		(B c11)
+		(R c12)
+		(W c13)
+		(W c20)
+		(W c21)
+		(W c22)
+		(W c23)
+		(W c30)
+		(W c31)
+		(W c32)
+		(W c33)
+		(tipo1 c00)
+		(tipo0 c01)
+		(tipo0 c02)
+		(tipo0 c03)
+		(tipo0 c10)
+		(tipo3 c11)
+		(tipo0 c12)
+		(tipo0 c13)
+		(tipo0 c20)
+		(tipo0 c21)
+		(tipo2 c22)
+		(tipo0 c23)
+		(tipo0 c30)
+		(tipo0 c31)
+		(tipo0 c32)
+		(tipo4 c33)
+		(adj c00 c01)
+		(adj c00 c10)
+		(adj c01 c02)
+		(adj c01 c11)
+		(adj c02 c03)
+		(adj c02 c12)
+		(adj c03 c13)
+		(adj c10 c11)
+		(adj c10 c20)
+		(adj c11 c12)
+		(adj c11 c21)
+		(adj c12 c13)
+		(adj c12 c22)
+		(adj c13 c23)
+		(adj c20 c21)
+		(adj c20 c30)
+		(adj c21 c22)
+		(adj c21 c31)
+		(adj c22 c23)
+		(adj c22 c32)
+		(adj c23 c33)
+		(adj c30 c31)
+		(adj c31 c32)
+		(adj c32 c33)
+		(same_row c00 c01)
+		(same_row c01 c02)
+		(same_row c02 c03)
+		(same_row c10 c11)
+		(same_row c11 c12)
+		(same_row c12 c13)
+		(same_row c20 c21)
+		(same_row c21 c22)
+		(same_row c22 c23)
+		(same_row c30 c31)
+		(same_row c31 c32)
+		(same_row c32 c33)
+		(same_col c00 c10)
+		(same_col c01 c11)
+		(same_col c02 c12)
+		(same_col c03 c13)
+		(same_col c10 c20)
+		(same_col c11 c21)
+		(same_col c12 c22)
+		(same_col c13 c23)
+		(same_col c20 c30)
+		(same_col c21 c31)
+		(same_col c22 c32)
+		(same_col c23 c33)
+	)
+	(:goal (and (W c00) (W c01) (W c02) (W c03) (W c10) (W c11) (W c12) (W c13) (W c20) (W c21) (W c22) (W c23) (W c30) (W c31) (W c32) (W c33))))

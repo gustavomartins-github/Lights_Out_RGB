@@ -54,6 +54,6 @@ int main(void) {
 					"					(when (not (on ?w)) (on ?w))))))))");
 	// fecha os arquivos
 	fclose(domain), fclose(problem);
-	system("/home/software/planners/madagascar/M -Q domain.pddl problem.pddl");
+	//system("/home/software/planners/madagascar/M -Q domain.pddl problem.pddl");
 	return 0;
 }
