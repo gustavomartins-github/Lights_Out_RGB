@@ -5,7 +5,7 @@ char matrix[40][40];
 int main(void) {
     // lendo e armazenando a entrada
 	int p = 0;
-	while (scanf(" %s", matrix[p++]) == 1);
+	while (scanf(" %s", matrix[p++]) == 1 and p < 4);
     
     // criando os arquivos e o cabeçalho
 	FILE *problem = fopen("problem.pddl", "w"), *domain = fopen("domain.pddl", "w");
@@ -52,6 +52,7 @@ int main(void) {
 					"				(when (or (adj ?c ?w) (adj ?w ?c))\n"
 					"					(and (when (on ?w) (not (on ?w)))\n"
 					"					(when (not (on ?w)) (on ?w))))))))");
+	// fecha os arquivos
 	fclose(domain), fclose(problem);
 	system("/home/software/planners/madagascar/M -Q domain.pddl problem.pddl");
 	return 0;
