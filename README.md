@@ -63,8 +63,8 @@ Ex.:<br>
  ID |       Defeito      |    quando clicado  | click em mesma linha | click em mesma coluna |
 ----| ------------------ | ------------------ | -------------------- | --------------------- |
 1   | :white_check_mark: |        :x:         |  :white_check_mark:  |  :white_check_mark:   |
-2   | :white_check_mark: |        :x:         |  :white_check_mark:  |          :x:          |
-3   | :white_check_mark: |        :x:         |         :x:          |  :white_check_mark:   |
+2   | :white_check_mark: | :white_check_mark: |  :white_check_mark:  |          :x:          |
+3   | :white_check_mark: | :white_check_mark: |         :x:          |  :white_check_mark:   |
 4   | :white_check_mark: | :white_check_mark: |         :x:          |          :x:          |
 5   |        :x:         | :white_check_mark: |  :white_check_mark:  |  :white_check_mark:   |
 
